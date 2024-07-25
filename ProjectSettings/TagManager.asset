@@ -11,7 +11,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Resource
   - 
   - 
   - 
@@ -40,4 +40,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Character
+    uniqueID: 1814288471
+    locked: 0
+  - name: Weapon
+    uniqueID: 2835622607
+    locked: 0
+  - name: Particle
+    uniqueID: 99478609
     locked: 0

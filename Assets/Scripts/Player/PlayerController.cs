@@ -28,13 +28,22 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 newPosition = _myRigidbody.position + _moveInput * _moveSpeed * Time.fixedDeltaTime;
-        _myRigidbody.MovePosition(newPosition);
+        _myRigidbody.velocity = _moveInput * _moveSpeed;
     }
 
     void OnMove(InputValue input)
     {
         _moveInput = input.Get<Vector2>().normalized;
+        FlipPlayer(_moveInput.x);
+    }
+
+    void FlipPlayer(float valueX)
+    {
+        if (valueX == 0) return;
+        if(Mathf.Sign(transform.localScale.x) != Mathf.Sign(valueX))
+        {
+            transform.localScale = new Vector3(Mathf.Sign(valueX), 1f, 1f);
+        }
     }
 
     #endregion
