@@ -21,7 +21,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 9c1a4127bd9fd4e4682b628bb277a68f, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5cd37c4fde06d5947be12861cb0e7bb8, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -95,7 +95,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: fba3a8ba7d1dc2249b4af50b6f087121, type: 2}
+  m_Motion: {fileID: 7400000, guid: d18f4f5b224ab0746ac388ed202be177, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -107,7 +107,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hands
+  m_Name: Axe
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Attack
@@ -143,7 +143,7 @@ AnimatorStateMachine:
     m_Position: {x: 490, y: 210, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -7243256086446685319}
-    m_Position: {x: 160, y: 210, z: 0}
+    m_Position: {x: 150, y: 210, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []

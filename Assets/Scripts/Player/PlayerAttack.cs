@@ -24,11 +24,7 @@ public class PlayerAttack : MonoBehaviour
 
     void OnAttack(InputValue input)
     {
-        if (!_hitDetect._istoucingResource && _hitDetect._touchedResource == null)
-        {
-            Debug.Log("No hitted Resources");
-            return;
-        }
+        if (!_hitDetect._istoucingResource && _hitDetect._touchedResource == null) return;
         MakeFX();
 
         _hitDetect._touchedResource.Damaged(_weapon.GetPower());

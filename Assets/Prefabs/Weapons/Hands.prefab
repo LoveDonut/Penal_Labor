@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 10675474301877770}
   - component: {fileID: 5296187284538416967}
   - component: {fileID: -5662540674737450795}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,9 +48,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28abb5898e82eac428c717b50b16ff84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _power: 10
+  _power: 1
   _damagedFX: {fileID: 6868989778028926701, guid: 28d522eafc4f06b469bda77554c8a2f1, type: 3}
   _hitPoint: {fileID: 8556173009234104524}
+  _cinemachineSettings: {fileID: 11400000, guid: c5c803fca29454c4c855de6aa006c176, type: 2}
 --- !u!95 &-5662540674737450795
 Animator:
   serializedVersion: 5
@@ -82,7 +83,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7651312991231616035}
   - component: {fileID: 2429311829599262773}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BackHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,7 +144,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1459344689
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.764151, g: 0.3497804, b: 0, a: 1}
@@ -166,7 +167,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8934230704137469990}
   - component: {fileID: 9103018423757394813}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FrontHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +228,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1459344689
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.764151, g: 0.3497804, b: 0, a: 1}
@@ -251,7 +252,7 @@ GameObject:
   - component: {fileID: 6934645347744831921}
   - component: {fileID: 6244784129732136523}
   - component: {fileID: 7595854099794108386}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hit Point
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}

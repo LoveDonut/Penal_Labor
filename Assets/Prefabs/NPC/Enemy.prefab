@@ -615,9 +615,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fed42ed7fe8cf74f88be24484577cd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sightPoint: {fileID: 0}
-  _tie: {fileID: 0}
-  moveSpeed: 7
+  _route: {fileID: 0}
+  _sightPoint: {fileID: 1994276717314790564}
+  _tie: {fileID: 4857953429209922128}
+  _flashlightRotationSpeed: 1000
+  _moveSpeed: 7
+  _waitTime: 1
 --- !u!70 &3071486315138052848
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -679,7 +682,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &8343493182467555395
 GameObject:
   m_ObjectHideFlags: 0

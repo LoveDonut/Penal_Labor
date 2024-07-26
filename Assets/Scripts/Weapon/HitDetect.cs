@@ -6,14 +6,14 @@ public class HitDetect : MonoBehaviour
 {
     #region PrivateVariables
 
-    CircleCollider2D _myCollider;
+    Collider2D _myCollider;
 
     #endregion
 
     #region PublicVariables
 
     public bool _istoucingResource;
-    public Resource _touchedResource;
+    [HideInInspector] public Resource _touchedResource;
 
     #endregion
 
@@ -21,7 +21,7 @@ public class HitDetect : MonoBehaviour
 
     void Awake()
     {
-        _myCollider = GetComponent<CircleCollider2D>();
+        _myCollider = GetComponent<Collider2D>();
     }
     void Start()
     {
@@ -30,20 +30,33 @@ public class HitDetect : MonoBehaviour
 
     void Update()
     {
-        //if (_myCollider.IsTouchingLayers(LayerMask.GetMask("Resource")))
-        //{
-        //    _istoucingResource = true;
-        //}
-        //else
-        //{
-        //    _istoucingResource = false;
-        //}
+
     }
 
+    /*
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Resource"))
+        {
+            _istoucingResource = true;
+            _touchedResource = collision.GetComponent<Resource>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        _istoucingResource = false;
+        _touchedResource = null;
+    }
+    */
+    
     void OnCollisionEnter2D(Collision2D collision)
     {
-        _istoucingResource = true;
-        _touchedResource = collision.gameObject.GetComponent<Resource>();
+        if(collision.gameObject.CompareTag("Resource"))
+        {
+            _istoucingResource = true;
+            _touchedResource = collision.gameObject.GetComponent<Resource>();
+        }
     }
 
     void OnCollisionExit2D(Collision2D collision)
@@ -51,5 +64,6 @@ public class HitDetect : MonoBehaviour
         _istoucingResource = false;
         _touchedResource = null;
     }
+    
     #endregion
 }

@@ -10,7 +10,7 @@ public class EnemyMove : MonoBehaviour
     [SerializeField] Transform _route;
     [SerializeField] GameObject _sightPoint;
     [SerializeField] GameObject _tie;
-    [SerializeField] float _flashlightRotationSpeed = 2f;
+    [SerializeField] float _flashlightRotationSpeed = 1000f;
     [SerializeField] float _moveSpeed = 7f;
     [SerializeField] float _waitTime = 1f;
 
