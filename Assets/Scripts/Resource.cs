@@ -21,7 +21,7 @@ public class Resource : MonoBehaviour
 
     void Start()
     {
-        _originalPosition = _sprites.transform.position;
+        _originalPosition = _sprites.transform.localPosition;
         _hp = _maxHp;
     }
 

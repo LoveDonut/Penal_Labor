@@ -51,7 +51,6 @@ MonoBehaviour:
   _power: 1
   _damagedFX: {fileID: 6868989778028926701, guid: 28d522eafc4f06b469bda77554c8a2f1, type: 3}
   _hitPoint: {fileID: 8556173009234104524}
-  _cinemachineSettings: {fileID: 11400000, guid: c5c803fca29454c4c855de6aa006c176, type: 2}
 --- !u!95 &-5662540674737450795
 Animator:
   serializedVersion: 5
@@ -255,7 +254,7 @@ GameObject:
   m_Layer: 8
   m_Name: Hit Point
   m_TagString: Untagged
-  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -322,4 +321,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _istoucingResource: 0
+  _istoucingShopKeeper: 0
   _touchedResource: {fileID: 0}

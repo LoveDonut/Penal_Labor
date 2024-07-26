@@ -11,6 +11,10 @@ public class PlayerController : MonoBehaviour
     Vector2 _moveInput;
     Rigidbody2D _myRigidbody;
 
+    #endregion
+
+    #region PublicVariables
+    public bool _isActive;
 
     #endregion
 
@@ -23,16 +27,18 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        _isActive = true;
     }
 
     void FixedUpdate()
     {
+        if (!_isActive) return;
         _myRigidbody.velocity = _moveInput * _moveSpeed;
     }
 
     void OnMove(InputValue input)
     {
+        if (!_isActive) return;
         _moveInput = input.Get<Vector2>().normalized;
         FlipPlayer(_moveInput.x);
     }
