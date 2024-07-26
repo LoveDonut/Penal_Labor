@@ -10,10 +10,10 @@ public class PlayerWeaponManagement : MonoBehaviour
     #endregion
 
     #region PublicVariables
-    [SerializeField] GameObject[] _weapons;
     [SerializeField] GameObject[] _indecators;
     [SerializeField] GameObject[] _notPoccesses;
 
+    public GameObject[] _weapons;
     PlayerAttack _playerAttack;
     CinemachineStateDrivenCamera _stateCamera;
     #endregion

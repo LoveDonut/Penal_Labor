@@ -9,6 +9,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] int _power;
     [SerializeField] ParticleSystem _damagedFX;
     [SerializeField] GameObject _hitPoint;
+    [SerializeField] int[] costs = new int[3];
 
     CinemachineStateDrivenCamera _stateCamera;
     PlayerAttack _playerAttack;
@@ -36,6 +37,11 @@ public class Weapon : MonoBehaviour
     public void PlayAttackAnimation()
     {
         _animator.SetTrigger("Attack");
+    }
+
+    public int[] GetCosts()
+    {
+        return costs;
     }
     #endregion
 }
