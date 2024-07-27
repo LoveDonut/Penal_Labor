@@ -11,6 +11,12 @@ public class PlayerAttack : MonoBehaviour
     HitDetect _hitDetect;
     UIController _uiController;
     PlayerController _playerController;
+
+    private bool _isGathering = false;
+    #endregion
+
+    #region PublicVariables
+
     #endregion
 
     #region PrivateMethods
@@ -27,6 +33,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (_hitDetect._istoucingResource && _hitDetect._touchedResource != null)
         {
+            _isGathering = true;
             // for drill
             if (_weapon.CompareTag("Drill"))
             {
@@ -55,6 +62,7 @@ public class PlayerAttack : MonoBehaviour
         if(!_weapon.CompareTag("Drill"))
         {
             Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
+            Invoke("TurnOffIsGathering", instance.main.duration + instance.main.startLifetime.constantMax);
 
             // Resource Shaking
             _hitDetect._touchedResource.ShakeResource();
@@ -100,8 +108,13 @@ public class PlayerAttack : MonoBehaviour
 //        Debug.Log("MouseButtonUp!");
 
         Destroy(instance);
-
+        _isGathering = false;
         _weapon.SetDrillAnimation(false);
+    }
+
+    void TurnOffIsGathering()
+    {
+        _isGathering = false;
     }
 
     #endregion
@@ -113,6 +126,13 @@ public class PlayerAttack : MonoBehaviour
         _weapon = weapon;
         _hitDetect = hitDetect;
     }
+
+    public bool GetIsGathering()
+    {
+        return _isGathering;
+    }
+
+    
 
     #endregion
 }

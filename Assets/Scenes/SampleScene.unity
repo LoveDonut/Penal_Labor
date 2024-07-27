@@ -1045,9 +1045,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1312272615}
-        m_TargetAssemblyTypeName: PlayerWeaponManagement, Assembly-CSharp
-        m_MethodName: AcquireWeapon
+      - m_Target: {fileID: 1240907983}
+        m_TargetAssemblyTypeName: PlayerResourceManagement, Assembly-CSharp
+        m_MethodName: BuyItem
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15571,20 +15571,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemBuyUI: {fileID: 548981540}
-  _itemPrices:
-  - {fileID: 1007203550}
-  - {fileID: 1565574447}
-  - {fileID: 1813809354}
-  - {fileID: 1902615417}
-  - {fileID: 897907568}
-  - {fileID: 1433147687}
-  _items:
-  - {fileID: 11400000, guid: 973f481e483dce4478ec1098a71bf77d, type: 2}
-  - {fileID: 11400000, guid: 973f481e483dce4478ec1098a71bf77d, type: 2}
-  - {fileID: 11400000, guid: aae07b3c93773ae4ab8ef22d82941d5c, type: 2}
-  - {fileID: 11400000, guid: 973f481e483dce4478ec1098a71bf77d, type: 2}
-  - {fileID: 11400000, guid: 973f481e483dce4478ec1098a71bf77d, type: 2}
-  - {fileID: 11400000, guid: 973f481e483dce4478ec1098a71bf77d, type: 2}
 --- !u!4 &1997736390
 Transform:
   m_ObjectHideFlags: 0
