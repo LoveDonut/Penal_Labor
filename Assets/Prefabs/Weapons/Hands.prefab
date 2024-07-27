@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &10675474301877770
 Transform:
   m_ObjectHideFlags: 0
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28abb5898e82eac428c717b50b16ff84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _power: 1
+  _itemConfig: {fileID: 11400000, guid: 48a2e031420470d4ba4488c5b3d37297, type: 2}
   _damagedFX: {fileID: 6868989778028926701, guid: 28d522eafc4f06b469bda77554c8a2f1, type: 3}
   _hitPoint: {fileID: 8556173009234104524}
 --- !u!95 &-5662540674737450795

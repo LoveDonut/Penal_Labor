@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ChasePlayer : MonoBehaviour
 {
@@ -9,14 +10,17 @@ public class ChasePlayer : MonoBehaviour
     [SerializeField] GameObject _sightPoint;
     [SerializeField] GameObject _tie;
     [SerializeField] float _flashlightRotationSpeed = 1000f;
-    [SerializeField] float _moveSpeed = 10f;
-    [SerializeField] Tuple<int, int> _randomTimeRange;
+    [SerializeField] int _randomTimeMin;
+    [SerializeField] int _randomTimeMax;
 
     PlayerAttack _player;
     Rigidbody2D _enemyRigidbody;
     Coroutine _moveRoutine;
+
     Vector3 _destination;
     Vector3 _originalLocation;
+
+    NavMeshAgent _agent;
 
     bool _isChasing = false;
     bool _isReturning = false;
@@ -28,81 +32,67 @@ public class ChasePlayer : MonoBehaviour
     {
         _player = FindObjectOfType<PlayerAttack>();
         _enemyRigidbody = GetComponent<Rigidbody2D>();
+        _agent = GetComponent<NavMeshAgent>();
+        _agent.updateRotation = false;
+        _agent.updateUpAxis = false;
     }
 
     void Start()
     {
-        _originalLocation = transform.position;
+        _destination = _originalLocation = transform.position;
     }
     void Update()
     {
         StartChasing();
+        RotateEnemyByDirection();
     }
 
     void StartChasing()
     {
         if(_player.GetIsGathering() && !_isChasing)
         {
-            if (_moveRoutine != null && _isReturning)
+            if(_moveRoutine != null && _isReturning )
             {
+                _isReturning = false;
                 StopCoroutine(_moveRoutine);
             }
-            _destination = _player.transform.position;
-            _isChasing = true;
+
             _moveRoutine = StartCoroutine(Chase());
         }
     }
 
     IEnumerator Chase()
     {
-        bool isArrived = false;
+        _isChasing = true;
+        yield return new WaitForSeconds(UnityEngine.Random.Range(_randomTimeMin, _randomTimeMax));
+        _destination = _player.transform.position;
+        _agent.SetDestination(_destination);
 
         // move to destination
-        while(!isArrived)
+        while (Vector3.Distance(_destination, transform.position) > 0.5f)
         {
-            MoveTowards(_destination, ref isArrived);
-            RotateEnemyByDirection(_destination);
             yield return new WaitForFixedUpdate();
         }
 
         _isChasing = false;
         _isReturning = true;
-        isArrived = false;
 
+        _destination = _originalLocation;
+        _agent.SetDestination(_destination);
         // return original location
-        while (!isArrived)
+        while (Vector3.Distance(_destination, transform.position) > 0.5f)
         {
-            Debug.Log("Returning!");
-            MoveTowards(_originalLocation, ref isArrived);
-            RotateEnemyByDirection(_originalLocation);
             yield return new WaitForFixedUpdate();
         }
 
         _isReturning = false;
-
     }
 
-    void MoveTowards(Vector3 destination, ref bool isArrived)
+    void RotateEnemyByDirection()
     {
-        Vector2 toTargetDirection = (destination - transform.position).normalized;
-
-        _enemyRigidbody.velocity = toTargetDirection * _moveSpeed;
-
-        if(Vector3.Distance(destination, transform.position) < 1f)
-        {
-            isArrived = true;
-            Debug.Log("Arrived to Destination!");
-        }
-    }
-
-    void RotateEnemyByDirection(Vector3 destination)
-    {
-        if (_enemyRigidbody.velocity != Vector2.zero)
-        {
-            float angle = Mathf.Atan2(destination.y - transform.position.y, destination.x - transform.position.x) * Mathf.Rad2Deg;
-            Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle + 90f));
-            _sightPoint.transform.rotation = Quaternion.RotateTowards(_sightPoint.transform.rotation, targetRotation, _flashlightRotationSpeed * Time.deltaTime);
-        }
+        float angle = Mathf.Atan2(_destination.y - transform.position.y, _destination.x - transform.position.x) * Mathf.Rad2Deg;
+        Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 0, angle + 90f));
+        _sightPoint.transform.rotation = Quaternion.RotateTowards(_sightPoint.transform.rotation, targetRotation, _flashlightRotationSpeed * Time.deltaTime);
     }
     #endregion
 

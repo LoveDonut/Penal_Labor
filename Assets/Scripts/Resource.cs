@@ -4,30 +4,42 @@ using UnityEngine;
 
 public class Resource : MonoBehaviour
 {
+    enum EResource
+    {
+        Coal,
+        Tree,
+        Iron
+    }
+
     #region PrivateVariables
     [SerializeField] GameObject _sprites;
+    [SerializeField] EResource _resourceType;
     [SerializeField] float _shakeDuration = 0.5f;
     [SerializeField] float _shakeMagnitude = 0.1f;
     [SerializeField] float _maxHp = 100;
 
+    PlayerResourceManagement _resourceManagement;
     Vector3 _originalPosition;
     float _hp;
+    float _resourceCriteria;
     #endregion
 
     #region PrivateMethods
     void Awake()
     {
+        _resourceManagement = FindObjectOfType<PlayerResourceManagement>();
     }
 
     void Start()
     {
         _originalPosition = _sprites.transform.localPosition;
+        _resourceCriteria = 0.9f;
         _hp = _maxHp;
     }
 
     void Update()
     {
-        
+
     }
 
     IEnumerator ShakeCoroutine()
@@ -48,6 +60,23 @@ public class Resource : MonoBehaviour
 
         _sprites.transform.localPosition = _originalPosition;
     }
+
+    void GiveResource(int num)
+    {
+        switch (_resourceType)
+        {
+            case EResource.Coal:
+                _resourceManagement.SetResourcesCount(num, 0, 0);
+                break;
+            case EResource.Tree:
+                _resourceManagement.SetResourcesCount(0, num, 0);
+                break;
+            case EResource.Iron:
+                _resourceManagement.SetResourcesCount(0, 0, num);
+                break;
+        }
+    }
+
     #endregion
 
     #region PublicMethods
@@ -60,9 +89,17 @@ public class Resource : MonoBehaviour
     {
         _hp -= damage;
 
+        while(_hp / _maxHp <= _resourceCriteria && _resourceCriteria > 0f)
+        {
+            _resourceCriteria -= 0.1f;
+            GiveResource(1);
+        }
+
         if (_hp <= 0) 
         {
-            Destroy(gameObject);
+            GiveResource(11);
+//            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
     #endregion
