@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UIController : MonoBehaviour
 {
     #region PrivateVariables
     [SerializeField] GameObject _itemBuyUI;
+
     PlayerController _playerController;
     #endregion
 
@@ -14,6 +16,10 @@ public class UIController : MonoBehaviour
     void Awake()
     {
         _playerController = FindObjectOfType<PlayerController>();
+    }
+
+    void Start()
+    {
     }
 
     #endregion

@@ -16,6 +16,7 @@ public class PlayerWeaponManagement : MonoBehaviour
     public GameObject[] _weapons;
     PlayerAttack _playerAttack;
     CinemachineStateDrivenCamera _stateCamera;
+    CinemachineVirtualCamera _attackCamera;
     #endregion
 
     #region PrivateMethods
@@ -26,6 +27,7 @@ public class PlayerWeaponManagement : MonoBehaviour
     {
         _playerAttack = FindObjectOfType<PlayerAttack>();
         _stateCamera = FindObjectOfType<CinemachineStateDrivenCamera>();
+        _attackCamera = FindObjectOfType<FlipAttackCamera>().GetComponent<CinemachineVirtualCamera>();
     }
 
     void Start()
@@ -71,6 +73,25 @@ public class PlayerWeaponManagement : MonoBehaviour
 
         // change object of camera
         _stateCamera.m_AnimatedTarget = _weapons[index].GetComponent<Animator>();
+
+        // drill add shaking effect
+        CinemachineBasicMultiChannelPerlin perlin = _attackCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+        if (perlin != null)
+        {
+            if (index == 3)
+            {
+                perlin.m_AmplitudeGain = 3.0f;
+            }
+            else
+            {
+                perlin.m_AmplitudeGain = 0f;
+            }
+        }
+        else
+        {
+            Debug.Log("doesn't exist perlin!");
+        }
 
         currentWeaponIndex = index;
     }

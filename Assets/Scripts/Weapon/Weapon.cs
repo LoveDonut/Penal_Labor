@@ -6,10 +6,9 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     #region PrivateVariables
-    [SerializeField] int _power;
+    [SerializeField] ItemConfig _itemConfig;
     [SerializeField] ParticleSystem _damagedFX;
     [SerializeField] GameObject _hitPoint;
-    [SerializeField] int[] costs = new int[3];
 
     CinemachineStateDrivenCamera _stateCamera;
     PlayerAttack _playerAttack;
@@ -30,18 +29,27 @@ public class Weapon : MonoBehaviour
 
 
     #region PublicMethods
-    public int GetPower() { return _power; }
+    public float GetPower() { return _itemConfig.GetPower(); }
     public ParticleSystem GetDamagedFX() { return _damagedFX; }
     public Transform GetHitPoint() { return _hitPoint.transform; }
 
     public void PlayAttackAnimation()
     {
         _animator.SetTrigger("Attack");
+        SetDrillAnimation(true);
     }
 
     public int[] GetCosts()
     {
-        return costs;
+        return _itemConfig.GetCosts();
+    }
+
+    public void SetDrillAnimation(bool b)
+    {
+        if (CompareTag("Drill"))
+        {
+            _animator.SetBool("isAttacking", b);
+        }
     }
     #endregion
 }

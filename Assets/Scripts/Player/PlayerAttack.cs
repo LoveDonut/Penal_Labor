@@ -27,9 +27,17 @@ public class PlayerAttack : MonoBehaviour
 
         if (_hitDetect._istoucingResource && _hitDetect._touchedResource != null)
         {
-            MakeFX();
+            // for drill
+            if (_weapon.CompareTag("Drill"))
+            {
+                StartCoroutine(AttackWithDrill());
+            }
+            else
+            {
+                MakeFX();
 
-            _hitDetect._touchedResource.Damaged(_weapon.GetPower());
+                _hitDetect._touchedResource.Damaged(_weapon.GetPower());
+            }
         }
         else if(_hitDetect._istoucingShopKeeper)
         {
@@ -38,16 +46,20 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    private void MakeFX()
+    void MakeFX()
     {
         // Particle Effects
         ParticleSystem instance = Instantiate(_weapon.GetDamagedFX(), _weapon.GetHitPoint().position, _weapon.GetDamagedFX().transform.rotation, transform);
         FlipParticleRotation(instance);
 
-        Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
+        if(!_weapon.CompareTag("Drill"))
+        {
+            Destroy(instance.gameObject, instance.main.duration + instance.main.startLifetime.constantMax);
 
-        // Resource Shaking
-        _hitDetect._touchedResource.ShakeResource();
+            // Resource Shaking
+            _hitDetect._touchedResource.ShakeResource();
+        }
+
 
         // Play Attack Animation
         _weapon.PlayAttackAnimation();
@@ -59,6 +71,37 @@ public class PlayerAttack : MonoBehaviour
         {
             shape.rotation = new Vector3(0f, 0f, 180f);
         }
+    }
+
+    IEnumerator AttackWithDrill()
+    {
+//        Debug.Log("Coroutine Start!");
+
+        ParticleSystem instance = Instantiate(_weapon.GetDamagedFX(), _weapon.GetHitPoint().position, _weapon.GetDamagedFX().transform.rotation, transform);
+        FlipParticleRotation(instance);
+
+        // Play Attack Animation
+        _weapon.PlayAttackAnimation();
+
+        while (Input.GetMouseButton(0) && _hitDetect._istoucingResource)
+        {
+            // Resource Shaking
+            if (_hitDetect._touchedResource != null)
+            {
+                _hitDetect._touchedResource.ShakeResource();
+            }
+
+            // Damaged
+            _hitDetect._touchedResource.Damaged(_weapon.GetPower());
+
+            yield return new WaitForEndOfFrame();
+        }
+
+//        Debug.Log("MouseButtonUp!");
+
+        Destroy(instance);
+
+        _weapon.SetDrillAnimation(false);
     }
 
     #endregion

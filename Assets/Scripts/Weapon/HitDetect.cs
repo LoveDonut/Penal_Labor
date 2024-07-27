@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class HitDetect : MonoBehaviour
@@ -33,23 +34,6 @@ public class HitDetect : MonoBehaviour
     {
 
     }
-
-    /*
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Resource"))
-        {
-            _istoucingResource = true;
-            _touchedResource = collision.GetComponent<Resource>();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _istoucingResource = false;
-        _touchedResource = null;
-    }
-    */
     
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -74,6 +58,12 @@ public class HitDetect : MonoBehaviour
         else if (collision.gameObject.CompareTag("ShopKeeper"))
         {
             _istoucingShopKeeper = false;
+        }
+
+        Weapon weapon = GetComponentInParent<Weapon>();
+        if (weapon != null)
+        {
+            weapon.SetDrillAnimation(false);
         }
     }
     

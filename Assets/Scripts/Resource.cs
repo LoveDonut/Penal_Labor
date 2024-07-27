@@ -8,10 +8,10 @@ public class Resource : MonoBehaviour
     [SerializeField] GameObject _sprites;
     [SerializeField] float _shakeDuration = 0.5f;
     [SerializeField] float _shakeMagnitude = 0.1f;
-    [SerializeField] int _maxHp = 100;
+    [SerializeField] float _maxHp = 100;
 
     Vector3 _originalPosition;
-    int _hp;
+    float _hp;
     #endregion
 
     #region PrivateMethods
@@ -56,7 +56,7 @@ public class Resource : MonoBehaviour
         StartCoroutine(ShakeCoroutine());
     }
 
-    public void Damaged(int damage)
+    public void Damaged(float damage)
     {
         _hp -= damage;
 

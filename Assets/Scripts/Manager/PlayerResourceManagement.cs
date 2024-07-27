@@ -40,14 +40,13 @@ public class PlayerResourceManagement : MonoBehaviour
     {
         if (resourceTexts.Count == 3)
         {
-            Debug.Log("Update Resource display!");
             resourceTexts[0].SetText($": {_coalCount}");
             resourceTexts[1].SetText($": {_treeCount}");
             resourceTexts[2].SetText($": {_ironCount}");
         }
         else
         {
-            Debug.Log("Not Update Resource display...");
+            Debug.Log("Not display recources update...");
         }
     }
 
@@ -56,6 +55,7 @@ public class PlayerResourceManagement : MonoBehaviour
     public void BuyItem(int index)
     {
         int[] costs = _weaponManagement._weapons[index].GetComponent<Weapon>().GetCosts();
+        Debug.Log($"Price is {costs[0]} / {costs[1]} / {costs[2]}");
         if (_coalCount >= costs[0] && _treeCount >= costs[1] && _ironCount >= costs[2])
         {
             _coalCount-= costs[0];
