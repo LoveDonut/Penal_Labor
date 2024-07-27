@@ -30,6 +30,9 @@ public class UIController : MonoBehaviour
     {
         _itemBuyUI.SetActive(b);
         _playerController._isActive = true;
+
+        // make player stop
+        _playerController.gameObject.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
     }
     #endregion
 }

@@ -14,11 +14,13 @@ public class Resource : MonoBehaviour
     #region PrivateVariables
     [SerializeField] GameObject _sprites;
     [SerializeField] EResource _resourceType;
+    [SerializeField] float _respawnTime = 5f;
     [SerializeField] float _shakeDuration = 0.5f;
     [SerializeField] float _shakeMagnitude = 0.1f;
     [SerializeField] float _maxHp = 100;
 
     PlayerResourceManagement _resourceManagement;
+    SpawnResource _spawnManager;
     Vector3 _originalPosition;
     float _hp;
     float _resourceCriteria;
@@ -28,6 +30,7 @@ public class Resource : MonoBehaviour
     void Awake()
     {
         _resourceManagement = FindObjectOfType<PlayerResourceManagement>();
+        _spawnManager = FindAnyObjectByType<SpawnResource>();
     }
 
     void Start()
@@ -40,6 +43,21 @@ public class Resource : MonoBehaviour
     void Update()
     {
 
+    }
+    void GiveResource(int num)
+    {
+        switch (_resourceType)
+        {
+            case EResource.Coal:
+                _resourceManagement.SetResourcesCount(num, 0, 0);
+                break;
+            case EResource.Tree:
+                _resourceManagement.SetResourcesCount(0, num, 0);
+                break;
+            case EResource.Iron:
+                _resourceManagement.SetResourcesCount(0, 0, num);
+                break;
+        }
     }
 
     IEnumerator ShakeCoroutine()
@@ -59,22 +77,6 @@ public class Resource : MonoBehaviour
         }
 
         _sprites.transform.localPosition = _originalPosition;
-    }
-
-    void GiveResource(int num)
-    {
-        switch (_resourceType)
-        {
-            case EResource.Coal:
-                _resourceManagement.SetResourcesCount(num, 0, 0);
-                break;
-            case EResource.Tree:
-                _resourceManagement.SetResourcesCount(0, num, 0);
-                break;
-            case EResource.Iron:
-                _resourceManagement.SetResourcesCount(0, 0, num);
-                break;
-        }
     }
 
     #endregion
@@ -98,9 +100,15 @@ public class Resource : MonoBehaviour
         if (_hp <= 0) 
         {
             GiveResource(11);
-//            Destroy(gameObject);
+            _spawnManager.Respawn(gameObject, _respawnTime);
             gameObject.SetActive(false);
         }
+    }
+
+    public void RecoverHp()
+    {
+        _hp = _maxHp;
+        _resourceCriteria = 0.9f;
     }
     #endregion
 }
