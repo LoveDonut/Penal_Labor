@@ -15,3 +15,4 @@ MonoBehaviour:
   power: 5
   costs: 000000000a00000000000000
   recovery: 0
+  _weaponType: 1

@@ -8,7 +8,6 @@ public class ChasePlayer : MonoBehaviour
 {
     #region PrivateVariables
     [SerializeField] GameObject _sightPoint;
-    [SerializeField] GameObject _tie;
     [SerializeField] float _flashlightRotationSpeed = 1000f;
     [SerializeField] int _randomTimeMin;
     [SerializeField] int _randomTimeMax;
@@ -69,7 +68,7 @@ public class ChasePlayer : MonoBehaviour
         _agent.SetDestination(_destination);
 
         // move to destination
-        while (Vector3.Distance(_destination, transform.position) > 0.5f)
+        while (Vector3.Distance(_destination, transform.position) > 2f)
         {
             yield return new WaitForFixedUpdate();
         }

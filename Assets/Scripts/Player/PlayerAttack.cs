@@ -31,9 +31,12 @@ public class PlayerAttack : MonoBehaviour
     {
         if (!_playerController._isActive) return;
 
-        if (_hitDetect._istoucingResource && _hitDetect._touchedResource != null)
+        if (_hitDetect._istouchingResource && _hitDetect._touchedResource != null)
         {
-            _isGathering = true;
+            if(_weapon.GetWeaponType() != PlayerWeaponManagement.EWeaponType.Hands)
+            {
+                _isGathering = true;
+            }
             // for drill
             if (_weapon.CompareTag("Drill"))
             {
@@ -46,7 +49,7 @@ public class PlayerAttack : MonoBehaviour
                 _hitDetect._touchedResource.Damaged(_weapon.GetPower());
             }
         }
-        else if(_hitDetect._istoucingShopKeeper)
+        else if(_hitDetect._istouchingShopKeeper)
         {
             _uiController.SetItemBuyUI(true);
             _playerController._isActive = false;
@@ -91,7 +94,7 @@ public class PlayerAttack : MonoBehaviour
         // Play Attack Animation
         _weapon.PlayAttackAnimation();
 
-        while (Input.GetMouseButton(0) && _hitDetect._istoucingResource)
+        while (Input.GetMouseButton(0) && _hitDetect._istouchingResource)
         {
             // Resource Shaking
             if (_hitDetect._touchedResource != null)

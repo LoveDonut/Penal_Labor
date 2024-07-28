@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Resource : MonoBehaviour
 {
@@ -8,12 +9,14 @@ public class Resource : MonoBehaviour
     {
         Coal,
         Tree,
-        Iron
+        Iron,
+        Gold
     }
 
     #region PrivateVariables
     [SerializeField] GameObject _sprites;
     [SerializeField] EResource _resourceType;
+    [SerializeField] Slider _hpProgressBar;
     [SerializeField] float _respawnTime = 5f;
     [SerializeField] float _shakeDuration = 0.5f;
     [SerializeField] float _shakeMagnitude = 0.1f;
@@ -38,24 +41,28 @@ public class Resource : MonoBehaviour
         _originalPosition = _sprites.transform.localPosition;
         _resourceCriteria = 0.9f;
         _hp = _maxHp;
+        _hpProgressBar.maxValue = _maxHp;
     }
 
     void Update()
     {
-
+        _hpProgressBar.value = _hp;
     }
     void GiveResource(int num)
     {
         switch (_resourceType)
         {
             case EResource.Coal:
-                _resourceManagement.SetResourcesCount(num, 0, 0);
+                _resourceManagement.SetResourcesCount(num, 0, 0, 0);
                 break;
             case EResource.Tree:
-                _resourceManagement.SetResourcesCount(0, num, 0);
+                _resourceManagement.SetResourcesCount(0, num, 0, 0);
                 break;
             case EResource.Iron:
-                _resourceManagement.SetResourcesCount(0, 0, num);
+                _resourceManagement.SetResourcesCount(0, 0, num, 0);
+                break;
+            case EResource.Gold:
+                _resourceManagement.SetResourcesCount(0, 0, 0, num);
                 break;
         }
     }
@@ -77,6 +84,14 @@ public class Resource : MonoBehaviour
         }
 
         _sprites.transform.localPosition = _originalPosition;
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Player"))
+        {
+            RecoverHp();
+        }
     }
 
     #endregion

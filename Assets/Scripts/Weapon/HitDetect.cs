@@ -13,8 +13,8 @@ public class HitDetect : MonoBehaviour
 
     #region PublicVariables
 
-    public bool _istoucingResource;
-    public bool _istoucingShopKeeper;
+    public bool _istouchingResource;
+    public bool _istouchingShopKeeper;
     [HideInInspector] public Resource _touchedResource;
 
     #endregion
@@ -39,12 +39,12 @@ public class HitDetect : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Resource"))
         {
-            _istoucingResource = true;
+            _istouchingResource = true;
             _touchedResource = collision.gameObject.GetComponent<Resource>();
         }
         else if(collision.gameObject.CompareTag("ShopKeeper"))
         {
-            _istoucingShopKeeper = true;
+            _istouchingShopKeeper = true;
         }
     }
 
@@ -52,12 +52,12 @@ public class HitDetect : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Resource"))
         {
-            _istoucingResource = false;
+            _istouchingResource = false;
             _touchedResource = null;
         }
         else if (collision.gameObject.CompareTag("ShopKeeper"))
         {
-            _istoucingShopKeeper = false;
+            _istouchingShopKeeper = false;
         }
 
         Weapon weapon = GetComponentInParent<Weapon>();

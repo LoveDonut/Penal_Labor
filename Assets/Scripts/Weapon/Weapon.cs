@@ -44,6 +44,11 @@ public class Weapon : MonoBehaviour
         return _itemConfig.GetCosts();
     }
 
+    public PlayerWeaponManagement.EWeaponType GetWeaponType()
+    {
+        return _itemConfig.GetWeaponType();
+    }
+
     public void SetDrillAnimation(bool b)
     {
         if (CompareTag("Drill"))

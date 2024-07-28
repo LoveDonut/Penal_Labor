@@ -6,11 +6,12 @@ using UnityEngine;
 public class ItemConfig : ScriptableObject
 {
     [SerializeField] float power;
-    [SerializeField] int[] costs = new int[3];
+    [SerializeField] int[] costs = new int[4];
     [SerializeField] int recovery;
+    [SerializeField] PlayerWeaponManagement.EWeaponType _weaponType;
 
     public float GetPower() { return  power; }
-    public int GetRecovery() { return recovery; }
     public int[] GetCosts() { return costs; }
 
+    public PlayerWeaponManagement.EWeaponType GetWeaponType() { return _weaponType; }
 }

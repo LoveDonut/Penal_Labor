@@ -429,7 +429,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6602395117334874846}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -450,7 +450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28abb5898e82eac428c717b50b16ff84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemConfig: {fileID: 11400000, guid: 973f481e483dce4478ec1098a71bf77d, type: 2}
+  _itemConfig: {fileID: 11400000, guid: 44875721a3ab9fa4aa036927b47ee079, type: 2}
   _damagedFX: {fileID: 6868989778028926701, guid: 28d522eafc4f06b469bda77554c8a2f1, type: 3}
   _hitPoint: {fileID: 9139648509316960676}
 --- !u!95 &4190631137169586270
@@ -463,7 +463,7 @@ Animator:
   m_GameObject: {fileID: 6602395117334874846}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 92ed62f3057ee594caf7a760822e077d, type: 2}
+  m_Controller: {fileID: 9100000, guid: ee54e1965f32918499caa2e39eeb9839, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

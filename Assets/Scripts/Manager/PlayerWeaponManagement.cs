@@ -5,23 +5,35 @@ using UnityEngine;
 
 public class PlayerWeaponManagement : MonoBehaviour
 {
+    public enum EWeaponType
+    {
+        Hands = 0,
+        Axe = 1,
+        Pickax = 2,
+        Drill = 3,
+        King = 4
+    }
 
     #region PrivateVariables
-    #endregion
-
-    #region PublicVariables
     [SerializeField] GameObject[] _indecators;
     [SerializeField] GameObject[] _notPoccesses;
+    [SerializeField] GameObject _kingPictureStatus;
 
-    public GameObject[] _weapons;
     PlayerAttack _playerAttack;
     CinemachineStateDrivenCamera _stateCamera;
     CinemachineVirtualCamera _attackCamera;
+
+    EWeaponType _currentWeapon = EWeaponType.Hands; // 현재 선택된 무기의 인덱스
+    Dictionary<EWeaponType, bool> _weaponExists = new Dictionary<EWeaponType, bool>();
+
+
+    #endregion
+
+    #region PublicVariables
+    public GameObject[] _weapons;
     #endregion
 
     #region PrivateMethods
-    private int currentWeaponIndex = 0; // 현재 선택된 무기의 인덱스
-    private bool[] weaponExists = new bool[4]; // 무기 존재 여부 배열
 
     void Awake()
     {
@@ -32,8 +44,12 @@ public class PlayerWeaponManagement : MonoBehaviour
 
     void Start()
     {
-        weaponExists[currentWeaponIndex] = true;
-        SelectWeapon(currentWeaponIndex);
+        for(EWeaponType type = EWeaponType.Hands; type <= EWeaponType.King; type++)
+        {
+            _weaponExists.Add(type, false);
+        }
+        _weaponExists[EWeaponType.Hands] = true;
+        SelectWeapon(EWeaponType.Hands);
         UpdateWeaponUI();
     }
 
@@ -44,16 +60,16 @@ public class PlayerWeaponManagement : MonoBehaviour
 
     void HandleWeaponSelection()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1)) SelectWeapon(0);
-        if (Input.GetKeyDown(KeyCode.Alpha2)) SelectWeapon(1);
-        if (Input.GetKeyDown(KeyCode.Alpha3)) SelectWeapon(2);
-        if (Input.GetKeyDown(KeyCode.Alpha4)) SelectWeapon(3);
+        if (Input.GetKeyDown(KeyCode.Alpha1)) SelectWeapon(EWeaponType.Hands);
+        if (Input.GetKeyDown(KeyCode.Alpha2)) SelectWeapon(EWeaponType.Axe);
+        if (Input.GetKeyDown(KeyCode.Alpha3)) SelectWeapon(EWeaponType.Pickax);
+        if (Input.GetKeyDown(KeyCode.Alpha4)) SelectWeapon(EWeaponType.Drill);
+        if (Input.GetKeyDown(KeyCode.Alpha5)) SelectWeapon(EWeaponType.King);
     }
 
-    void SelectWeapon(int index)
+    void SelectWeapon(EWeaponType weaponType)
     {
-        if (index < 0 || index >= _weapons.Length) return;
-        if (!weaponExists[index]) return;
+        if (!_weaponExists[weaponType]) return;
 
         // 모든 무기를 비활성화
         for (int i = 0; i < _weapons.Length; i++)
@@ -63,23 +79,23 @@ public class PlayerWeaponManagement : MonoBehaviour
         }
 
         // activate weapon
-        _weapons[index].SetActive(true);
+        _weapons[(int)weaponType].SetActive(true);
 
         // activate ui
-        _indecators[index].SetActive(true);
+        _indecators[(int)weaponType].SetActive(true);
 
         // set weapon to player
-        _playerAttack.SetWeapon(_weapons[index].GetComponent<Weapon>(), _weapons[index].GetComponentInChildren<HitDetect>());
+        _playerAttack.SetWeapon(_weapons[(int)weaponType].GetComponent<Weapon>(), _weapons[(int)weaponType].GetComponentInChildren<HitDetect>());
 
         // change object of camera
-        _stateCamera.m_AnimatedTarget = _weapons[index].GetComponent<Animator>();
+        _stateCamera.m_AnimatedTarget = _weapons[(int)weaponType].GetComponent<Animator>();
 
         // drill add shaking effect
         CinemachineBasicMultiChannelPerlin perlin = _attackCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
         if (perlin != null)
         {
-            if (index == 3)
+            if (weaponType == EWeaponType.Drill)
             {
                 perlin.m_AmplitudeGain = 3.0f;
             }
@@ -93,13 +109,13 @@ public class PlayerWeaponManagement : MonoBehaviour
             Debug.Log("doesn't exist perlin!");
         }
 
-        currentWeaponIndex = index;
+        _currentWeapon = weaponType;
     }
     void UpdateWeaponUI()
     {
         for (int i = 0; i < _notPoccesses.Length; i++)
         {
-            if (weaponExists[i])
+            if (_weaponExists[(EWeaponType)i])
             {
                 _notPoccesses[i].SetActive(false);
             }
@@ -116,7 +132,11 @@ public class PlayerWeaponManagement : MonoBehaviour
     {
         if (index < 0 || index >= _weapons.Length) return;
 
-        weaponExists[index] = true;
+        _weaponExists[(EWeaponType)index] = true;
+        if(index == 4)
+        {
+            _kingPictureStatus.SetActive(true);
+        }
         UpdateWeaponUI();
     }
 
@@ -124,12 +144,12 @@ public class PlayerWeaponManagement : MonoBehaviour
     {
         if (index < 0 || index >= _weapons.Length) return;
 
-        weaponExists[index] = false;
+        _weaponExists[(EWeaponType)index] = false;
 
         // 현재 선택된 무기가 잃어버린 무기라면, 다른 무기를 선택하거나 -1로 초기화
-        if (currentWeaponIndex == index)
+        if (_currentWeapon == (EWeaponType)index)
         {
-            currentWeaponIndex = -1;
+            _currentWeapon = 0;
             SelectWeapon(0);
         }
 
