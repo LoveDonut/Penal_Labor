@@ -24,13 +24,13 @@ public class PlayerWeaponManagement : MonoBehaviour
     CinemachineVirtualCamera _attackCamera;
 
     EWeaponType _currentWeapon = EWeaponType.Hands; // 현재 선택된 무기의 인덱스
-    Dictionary<EWeaponType, bool> _weaponExists = new Dictionary<EWeaponType, bool>();
 
 
     #endregion
 
     #region PublicVariables
     public GameObject[] _weapons;
+    public Dictionary<EWeaponType, bool> _weaponExists = new Dictionary<EWeaponType, bool>();
     #endregion
 
     #region PrivateMethods

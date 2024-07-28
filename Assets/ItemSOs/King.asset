@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: King
   m_EditorClassIdentifier: 
   power: 150
-  costs: 050000000500000005000000
+  costs: 0000000000000000000000000a000000
   recovery: 0
-  _weaponType: 2
+  _weaponType: 4

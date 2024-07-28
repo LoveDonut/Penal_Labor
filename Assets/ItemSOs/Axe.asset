@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Axe
   m_EditorClassIdentifier: 
   power: 5
-  costs: 000000000a00000000000000
+  costs: 00000000280000000000000000000000
   recovery: 0
   _weaponType: 1

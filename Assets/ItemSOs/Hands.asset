@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Hands
   m_EditorClassIdentifier: 
   power: 1
-  costs: 000000000000000000000000
+  costs: 00000000000000000000000000000000
   recovery: 0
+  _weaponType: 0

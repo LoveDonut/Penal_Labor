@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -11,6 +12,7 @@ public class PlayerAttack : MonoBehaviour
     HitDetect _hitDetect;
     UIController _uiController;
     PlayerController _playerController;
+    GameObject _camera;
 
     private bool _isGathering = false;
     #endregion
@@ -25,6 +27,7 @@ public class PlayerAttack : MonoBehaviour
     {
         _uiController = FindObjectOfType<UIController>();    
         _playerController = FindObjectOfType<PlayerController>();
+        _camera = FindObjectOfType<CinemachineBrain>().gameObject;
     }
 
     void OnAttack(InputValue input)
@@ -44,9 +47,9 @@ public class PlayerAttack : MonoBehaviour
             }
             else
             {
-                MakeFX();
 
                 _hitDetect._touchedResource.Damaged(_weapon.GetPower());
+                MakeFX();
             }
         }
         else if(_hitDetect._istouchingShopKeeper)
@@ -68,7 +71,10 @@ public class PlayerAttack : MonoBehaviour
             Invoke("TurnOffIsGathering", instance.main.duration + instance.main.startLifetime.constantMax);
 
             // Resource Shaking
-            _hitDetect._touchedResource.ShakeResource();
+            if(_hitDetect._touchedResource != null)
+            {
+                _hitDetect._touchedResource.ShakeResource();
+            }
         }
 
 
@@ -113,6 +119,7 @@ public class PlayerAttack : MonoBehaviour
         Destroy(instance);
         _isGathering = false;
         _weapon.SetDrillAnimation(false);
+        _camera.transform.rotation = Quaternion.identity;
     }
 
     void TurnOffIsGathering()

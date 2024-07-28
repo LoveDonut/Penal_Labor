@@ -8,6 +8,7 @@ public class HitDetect : MonoBehaviour
     #region PrivateVariables
 
     Collider2D _myCollider;
+    PlayerWeaponManagement.EWeaponType _weaponType;
 
     #endregion
 
@@ -24,6 +25,7 @@ public class HitDetect : MonoBehaviour
     void Awake()
     {
         _myCollider = GetComponent<Collider2D>();
+        _weaponType = GetComponentInParent<Weapon>().GetWeaponType();
     }
     void Start()
     {
@@ -39,7 +41,10 @@ public class HitDetect : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Resource"))
         {
-            _istouchingResource = true;
+            if(CheckCanGather(collision.gameObject.GetComponent<Resource>().GetResourceType()))
+            {
+                _istouchingResource = true;
+            }
             _touchedResource = collision.gameObject.GetComponent<Resource>();
         }
         else if(collision.gameObject.CompareTag("ShopKeeper"))
@@ -67,5 +72,23 @@ public class HitDetect : MonoBehaviour
         }
     }
     
+    bool CheckCanGather(Resource.EResource resourceType)
+    {
+        switch (resourceType)
+        {
+            case Resource.EResource.Coal:
+                if(_weaponType == PlayerWeaponManagement.EWeaponType.Axe) return false;
+                break;
+            case Resource.EResource.Tree:
+                if(_weaponType == PlayerWeaponManagement.EWeaponType.Pickax) return false;
+                break;
+            case Resource.EResource.Iron:
+                if (_weaponType == PlayerWeaponManagement.EWeaponType.Hands || _weaponType == PlayerWeaponManagement.EWeaponType.Axe) return false;
+                break;
+            default:
+                return true;
+        }
+        return true;
+    }
     #endregion
 }

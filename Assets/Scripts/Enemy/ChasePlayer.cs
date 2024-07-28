@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +10,8 @@ public class ChasePlayer : MonoBehaviour
     [SerializeField] float _flashlightRotationSpeed = 1000f;
     [SerializeField] int _randomTimeMin;
     [SerializeField] int _randomTimeMax;
-
+    
+    ManageStage _stageManager;
     PlayerAttack _player;
     Rigidbody2D _enemyRigidbody;
     Coroutine _moveRoutine;
@@ -21,14 +21,18 @@ public class ChasePlayer : MonoBehaviour
 
     NavMeshAgent _agent;
 
-    bool _isChasing = false;
-    bool _isReturning = false;
+    //bool _isChasing = false;
+    //bool _isReturning = false;
+    public bool _isChaseStart = false;
+    bool _isStartCoroutine = false;
+    bool _isArrive = true;
     #endregion
 
     #region PrivateMethods
 
     void Awake()
     {
+        _stageManager = GetComponentInParent<ManageStage>();
         _player = FindObjectOfType<PlayerAttack>();
         _enemyRigidbody = GetComponent<Rigidbody2D>();
         _agent = GetComponent<NavMeshAgent>();
@@ -42,50 +46,97 @@ public class ChasePlayer : MonoBehaviour
     }
     void Update()
     {
-        StartChasing();
-        RotateEnemyByDirection();
-    }
-
-    void StartChasing()
-    {
-        if(_player.GetIsGathering() && !_isChasing)
+        if (_stageManager._isGatherEverything)
         {
-            if(_moveRoutine != null && _isReturning )
+            if (_moveRoutine != null)
             {
-                _isReturning = false;
                 StopCoroutine(_moveRoutine);
             }
-
+            _destination = _player.transform.position;
+        }
+        else
+        {
+            if (!_isChaseStart && _isArrive)
+            {
+                StartChasing();
+            }
+            else if(_isChaseStart && !_isArrive)
+            {
+                if (Vector3.Distance(transform.position, _destination) < 2f)
+                {
+                    ResetChase();
+                }
+            }
+        }
+        _agent.SetDestination(_destination);
+        RotateEnemyByDirection();
+    }
+    void StartChasing()
+    {
+        if(_player.GetIsGathering())
+        {
+            _isChaseStart = true;
             _moveRoutine = StartCoroutine(Chase());
         }
     }
 
     IEnumerator Chase()
     {
-        _isChasing = true;
-        yield return new WaitForSeconds(UnityEngine.Random.Range(_randomTimeMin, _randomTimeMax));
-        _destination = _player.transform.position;
-        _agent.SetDestination(_destination);
-
-        // move to destination
-        while (Vector3.Distance(_destination, transform.position) > 2f)
+        yield return new WaitForSeconds(Random.Range(_randomTimeMin, _randomTimeMax));
+        if (!_stageManager._isGatherEverything)
         {
-            yield return new WaitForFixedUpdate();
+            _destination = _player.transform.position;
         }
-
-        _isChasing = false;
-        _isReturning = true;
-
-        _destination = _originalLocation;
-        _agent.SetDestination(_destination);
-        // return original location
-        while (Vector3.Distance(_destination, transform.position) > 0.5f)
-        {
-            yield return new WaitForFixedUpdate();
-        }
-
-        _isReturning = false;
+        _isArrive = false;
+        Debug.Log("Save Player Position when he gathers");
     }
+
+    public void ResetChase()
+    {
+        _isChaseStart = false;
+        _isArrive = true;
+        _destination = _originalLocation;
+    }
+    //void StartChasing()
+    //{
+    //    if(_player.GetIsGathering() && !_isChasing)
+    //    {
+    //        if(_moveRoutine != null && _isReturning )
+    //        {
+    //            _isReturning = false;
+    //            StopCoroutine(_moveRoutine);
+    //        }
+
+    //        _moveRoutine = StartCoroutine(Chase());
+    //    }
+    //}
+
+    //IEnumerator Chase()
+    //{
+    //    _isChasing = true;
+    //    yield return new WaitForSeconds(UnityEngine.Random.Range(_randomTimeMin, _randomTimeMax));
+    //    _destination = _player.transform.position;
+    //    _agent.SetDestination(_destination);
+
+    //    // move to destination
+    //    while (Vector3.Distance(_destination, transform.position) > 2f)
+    //    {
+    //        yield return new WaitForFixedUpdate();
+    //    }
+
+    //    _isChasing = false;
+    //    _isReturning = true;
+
+    //    _destination = _originalLocation;
+    //    _agent.SetDestination(_destination);
+    //    // return original location
+    //    while (Vector3.Distance(_destination, transform.position) > 0.5f)
+    //    {
+    //        yield return new WaitForFixedUpdate();
+    //    }
+
+    //    _isReturning = false;
+    //}
 
     void RotateEnemyByDirection()
     {
@@ -97,10 +148,6 @@ public class ChasePlayer : MonoBehaviour
 
     #region PublicMethods
 
-    public void SetIsChasing(bool ischasing)
-    {
-        _isChasing = ischasing;
-    }
 
     #endregion
 }

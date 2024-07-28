@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Resource : MonoBehaviour
 {
-    enum EResource
+    public enum EResource
     {
         Coal,
         Tree,
@@ -17,16 +17,19 @@ public class Resource : MonoBehaviour
     [SerializeField] GameObject _sprites;
     [SerializeField] EResource _resourceType;
     [SerializeField] Slider _hpProgressBar;
-    [SerializeField] float _respawnTime = 5f;
+    //[SerializeField] float _respawnTime = 5f;
     [SerializeField] float _shakeDuration = 0.5f;
     [SerializeField] float _shakeMagnitude = 0.1f;
     [SerializeField] float _maxHp = 100;
-
+    [SerializeField] ParticleSystem _goldParticle;
+    
+    ManageStage _stageManager;
     PlayerResourceManagement _resourceManagement;
     SpawnResource _spawnManager;
     Vector3 _originalPosition;
     float _hp;
-    float _resourceCriteria;
+    //float _resourceCriteria;
+    int goldRate = 15;
     #endregion
 
     #region PrivateMethods
@@ -34,12 +37,13 @@ public class Resource : MonoBehaviour
     {
         _resourceManagement = FindObjectOfType<PlayerResourceManagement>();
         _spawnManager = FindAnyObjectByType<SpawnResource>();
+        _stageManager = GetComponentInParent<ManageStage>();
     }
 
     void Start()
     {
         _originalPosition = _sprites.transform.localPosition;
-        _resourceCriteria = 0.9f;
+        //_resourceCriteria = 0.9f;
         _hp = _maxHp;
         _hpProgressBar.maxValue = _maxHp;
     }
@@ -50,19 +54,23 @@ public class Resource : MonoBehaviour
     }
     void GiveResource(int num)
     {
+        int percent = UnityEngine.Random.Range(0, goldRate);
+        if (percent == 0)
+        {
+            _resourceManagement.GatherResources(0, 0, 0, 1);
+            ParticleSystem instance = Instantiate(_goldParticle, transform.position, _goldParticle.transform.rotation, transform);
+            Destroy(instance, instance.main.duration + instance.main.startLifetime.constantMax);
+        }
         switch (_resourceType)
         {
             case EResource.Coal:
-                _resourceManagement.SetResourcesCount(num, 0, 0, 0);
+                _resourceManagement.GatherResources(num, 0, 0, 0);
                 break;
             case EResource.Tree:
-                _resourceManagement.SetResourcesCount(0, num, 0, 0);
+                _resourceManagement.GatherResources(0, num, 0, 0);
                 break;
             case EResource.Iron:
-                _resourceManagement.SetResourcesCount(0, 0, num, 0);
-                break;
-            case EResource.Gold:
-                _resourceManagement.SetResourcesCount(0, 0, 0, num);
+                _resourceManagement.GatherResources(0, 0, num, 0);
                 break;
         }
     }
@@ -86,13 +94,13 @@ public class Resource : MonoBehaviour
         _sprites.transform.localPosition = _originalPosition;
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            RecoverHp();
-        }
-    }
+    //private void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if(collision.gameObject.CompareTag("Player"))
+    //    {
+    //        RecoverHp();
+    //    }
+    //}
 
     #endregion
 
@@ -106,24 +114,28 @@ public class Resource : MonoBehaviour
     {
         _hp -= damage;
 
-        while(_hp / _maxHp <= _resourceCriteria && _resourceCriteria > 0f)
-        {
-            _resourceCriteria -= 0.1f;
-            GiveResource(1);
-        }
+        //while(_hp / _maxHp <= _resourceCriteria && _resourceCriteria > 0f)
+        //{
+        //    _resourceCriteria -= 0.1f;
+        //    GiveResource(1);
+        //}
 
         if (_hp <= 0) 
         {
-            GiveResource(11);
-            _spawnManager.Respawn(gameObject, _respawnTime);
-            gameObject.SetActive(false);
+            GiveResource(10);
+            _stageManager.DisappearResoource(gameObject);
         }
     }
 
     public void RecoverHp()
     {
         _hp = _maxHp;
-        _resourceCriteria = 0.9f;
+        //_resourceCriteria = 0.9f;
+    }
+
+    public EResource GetResourceType()
+    {
+        return _resourceType;
     }
     #endregion
 }

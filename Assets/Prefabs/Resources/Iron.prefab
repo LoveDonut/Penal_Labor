@@ -218,6 +218,8 @@ MonoBehaviour:
   _shakeDuration: 0.5
   _shakeMagnitude: 0.1
   _maxHp: 100
+  goldRate: 100
+  _goldParticle: {fileID: 1049849591717869903, guid: 897d23c048e10f449858530b3b66959d, type: 3}
 --- !u!60 &1648967720587893479
 PolygonCollider2D:
   m_ObjectHideFlags: 0

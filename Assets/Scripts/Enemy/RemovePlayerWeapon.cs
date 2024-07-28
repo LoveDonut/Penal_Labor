@@ -5,7 +5,10 @@ using UnityEngine;
 public class RemovePlayerWeapon : MonoBehaviour
 {
     #region PrivateVariables
+    [SerializeField] bool _isChasingEnemy;
+    ManageStage _stageManager;
     PlayerWeaponManagement _weaponManagement;
+    PlayerResourceManagement _resourceManagement;
     Weapon[] weapons;
     #endregion
 
@@ -14,7 +17,9 @@ public class RemovePlayerWeapon : MonoBehaviour
     void Awake()
     {
         _weaponManagement = FindObjectOfType<PlayerWeaponManagement>();
+        _resourceManagement = FindObjectOfType<PlayerResourceManagement>();
         weapons = transform.parent.transform.parent.GetComponentsInChildren<Weapon>();
+        _stageManager = transform.parent.transform.parent.GetComponentInParent<ManageStage>();
     }
 
     void Start()
@@ -33,13 +38,18 @@ public class RemovePlayerWeapon : MonoBehaviour
 
             if (weapon != null && weapon.GetWeaponType() != PlayerWeaponManagement.EWeaponType.Hands)
             {
-//                Debug.Log($"Remove Weapon! : {weapon.GetWeaponType()}");
                 _weaponManagement.LoseWeapon((int)weapon.GetWeaponType());
                 UpdateEnemyWeapon(weapon.GetWeaponType());
             }
             else
             {
-//                Debug.Log("Player only has hands");
+                _resourceManagement.RemoveResources();
+                collision.transform.position = Vector3.zero;
+                if(_isChasingEnemy)
+                {
+                    _stageManager.EndChaseAfterCatching();
+                }
+                _stageManager.PlayerGoOut();
             }
         }
     }

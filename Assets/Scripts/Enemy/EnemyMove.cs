@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,19 +8,19 @@ public class EnemyMove : MonoBehaviour
     #region PrivateVariables
     [SerializeField] Transform _route;
     [SerializeField] GameObject _sightPoint;
-    [SerializeField] GameObject _tie;
     [SerializeField] float _flashlightRotationSpeed = 1000f;
-    [SerializeField] float _moveSpeed = 7f;
-    [SerializeField] float _waitTime = 1f;
+    [SerializeField] float _moveSpeedMin = 5f;
+    [SerializeField] float _moveSpeedMax = 10f;
+//    [SerializeField] float _waitTime = 1f;
 
     PolygonCollider2D _sightCollider;
     Rigidbody2D _enemyRigidbody;
     List<Transform> _waypoints;
 
     int _currentWaypointIndex = 0;
-    bool _isWaiting = false;
-    Vector2 _movement;
-    Vector2 _lastDirection;
+    float _moveSpeed;
+//    bool _isWaiting = false;
+//    Vector2 _lastDirection;
 
     #endregion 
 
@@ -47,6 +46,8 @@ public class EnemyMove : MonoBehaviour
         {
             MoveTowardsWaypoint();
         }
+
+        _moveSpeed = Random.Range(_moveSpeedMin, _moveSpeedMax);
     }
 
     void MoveTowardsWaypoint()
@@ -55,26 +56,26 @@ public class EnemyMove : MonoBehaviour
         Vector2 direction = (targetWaypoint.position - transform.position).normalized;
 
         _enemyRigidbody.velocity = direction * _moveSpeed; // 물리적 이동
-        _lastDirection = direction; // 마지막 이동 방향 저장
+//        _lastDirection = direction; // 마지막 이동 방향 저장
 
         // Waypoint에 도달했는지 체크
         if (Vector2.Distance(transform.position, targetWaypoint.position) < 0.1f)
         {
-            _enemyRigidbody.velocity = Vector2.zero; // Waypoint 도착 시 이동 멈춤
+//            _enemyRigidbody.velocity = Vector2.zero; // Waypoint 도착 시 이동 멈춤
             _currentWaypointIndex = (_currentWaypointIndex + 1) % _waypoints.Count; // 다음 지점으로 이동
-            StartCoroutine(WaitAtWaypoint()); // 지점에서 대기
+//            StartCoroutine(WaitAtWaypoint()); // 지점에서 대기
         }
     }
-    private IEnumerator WaitAtWaypoint()
-    {
-        _isWaiting = true;
-        yield return new WaitForSeconds(_waitTime);
-        _isWaiting = false;
-    }
+    //private IEnumerator WaitAtWaypoint()
+    //{
+    //    _isWaiting = true;
+    //    yield return new WaitForSeconds(_waitTime);
+    //    _isWaiting = false;
+    //}
 
     void FixedUpdate()
     {
-        if (_isWaiting) return;
+//        if (_isWaiting) return;
         MoveTowardsWaypoint();
         RotateEnemyByDirection();
     }
@@ -90,6 +91,5 @@ public class EnemyMove : MonoBehaviour
         }
     }
     #endregion
-
 
 }
