@@ -11,18 +11,21 @@ public class ManageStage : MonoBehaviour
     Resource[] _resources;
     ChasePlayer[] _chaseEnemys;
     PlayerResourceManagement _resourceManagement;
+    RemovePlayerWeapon[] _enemyFlashs;
 
 
     int _resourcesCount;
     #endregion
 
     public bool _isGatherEverything = false;
+    public bool _isInRoom = false;
 
     void Awake()
     {
         _resourceManagement = FindObjectOfType<PlayerResourceManagement>();
         _chaseEnemys = GetComponentsInChildren<ChasePlayer>();
         _resources = GetComponentsInChildren<Resource>();
+        _enemyFlashs = GetComponentsInChildren<RemovePlayerWeapon>();
     }
 
     void Start()
@@ -30,10 +33,11 @@ public class ManageStage : MonoBehaviour
         _resourcesCount = _resources.Length;
     }
 
-    void WakeupChaseEnemy()
+    IEnumerator WakeupChaseEnemy()
     {
+        yield return new WaitForSeconds(1f);
         _isGatherEverything = true;
-        _screenFlash.FlashScreen();
+        _screenFlash.FlashScreen(GetComponent<ManageStage>());
     }
 
     void WakeupMovingEnemys()
@@ -47,11 +51,21 @@ public class ManageStage : MonoBehaviour
         }
     }
 
+    void ResetCoolDown()
+    {
+        foreach (RemovePlayerWeapon enemyFlash in _enemyFlashs)
+        {
+            enemyFlash._isCoolDown = false;
+        }
+    }
+
     public void PlayerGoOut()
     {
+        _isInRoom = false;
         _isGatherEverything = false;
         _resourcesCount = _resources.Length;
         _resourceManagement.ResetTemporaryResources();
+        ResetCoolDown();
         foreach (ChasePlayer chaseEnemy in  _chaseEnemys)
         {
             chaseEnemy.ResetChase();
@@ -87,7 +101,7 @@ public class ManageStage : MonoBehaviour
 
         if (_resourcesCount <= 0)
         {
-            WakeupChaseEnemy();
+            StartCoroutine(WakeupChaseEnemy());
         }
     }
 

@@ -14,7 +14,10 @@ public class PlayerResourceManagement : MonoBehaviour
     [SerializeField] int[] _bigEyeballPrice = new int[3];
     [SerializeField] int[] _gameClearPrice = new int[3];
 
+    PlayerController _playerController;
     PlayerWeaponManagement _weaponManagement;
+    UIController _uiController;
+
     int _temporaryCoal;
     int _temporaryTree;
     int _temporaryIron;
@@ -34,7 +37,9 @@ public class PlayerResourceManagement : MonoBehaviour
 
     void Awake()
     {
+        _playerController = FindObjectOfType<PlayerController>();
         _weaponManagement = FindObjectOfType<PlayerWeaponManagement>();
+        _uiController = FindObjectOfType<UIController>();
     }
 
     void Start()
@@ -55,7 +60,8 @@ public class PlayerResourceManagement : MonoBehaviour
 
     void GameClear()
     {
-        Debug.Log("Game Clear!");
+        _playerController._isActive = false;
+        _uiController.ClearScreen();
     }
 
     #region PublicMethods
@@ -64,7 +70,6 @@ public class PlayerResourceManagement : MonoBehaviour
     {
         if (_weaponManagement._weaponExists[(PlayerWeaponManagement.EWeaponType)index]) return;
         int[] costs = _weaponManagement._weapons[index].GetComponent<Weapon>().GetCosts();
-        Debug.Log($"Price is {costs[0]} / {costs[1]} / {costs[2]} / {costs[3]}");
         if (_coalCount >= costs[0] && _treeCount >= costs[1] && _ironCount >= costs[2] && _goldCount >= costs[3])
         {
             _coalCount-= costs[0];
@@ -88,8 +93,6 @@ public class PlayerResourceManagement : MonoBehaviour
         {
             costs = _gameClearPrice;
         }
-
-        Debug.Log($"Price is {costs[0]} / {costs[1]} / {costs[2]}");
 
         if (_coalCount >= costs[0] && _treeCount >= costs[1] && _ironCount >= costs[2])
         {
@@ -118,9 +121,17 @@ public class PlayerResourceManagement : MonoBehaviour
             }
             else
             {
-                vCamera.m_Lens.OrthographicSize = 4f;
+                vCamera.m_Lens.OrthographicSize = 5f;
                 _isOpenEye = false;
             }
+        }
+        if (_isEat)
+        {
+            _playerController._moveSpeed = 13f;
+        }
+        else
+        {
+            _playerController._moveSpeed = 10f;
         }
     }
 

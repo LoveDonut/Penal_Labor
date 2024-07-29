@@ -45,6 +45,11 @@ public class ChasePlayer : MonoBehaviour
     }
     void Update()
     {
+        if(!_stageManager._isInRoom)
+        {
+            _agent.SetDestination(_originalLocation);
+            return;
+        }
         if (_stageManager._isGatherEverything)
         {
             if (_moveRoutine != null)

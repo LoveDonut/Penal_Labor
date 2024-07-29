@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b48b71d959328e438cf3ca9b7e990dc, type: 3}
   m_Name: Drill
   m_EditorClassIdentifier: 
-  power: 0.08
-  costs: 50000000000000000000000000000000
+  power: 25
+  costs: 28000000280000000000000000000000
   recovery: 0
   _weaponType: 3

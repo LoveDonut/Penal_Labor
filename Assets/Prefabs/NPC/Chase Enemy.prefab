@@ -650,8 +650,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0.5773587}
-      - {x: -0.23882282, y: -0.1402083}
-      - {x: 0.2250768, y: -0.140208}
+      - {x: -0.1641115, y: -0.00013826042}
+      - {x: 0.15805542, y: 0.001316702}
   m_UseDelaunayMesh: 0
 --- !u!114 &6092520582898462375
 MonoBehaviour:
@@ -666,6 +666,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isChasingEnemy: 0
+  _isCoolDown: 0
 --- !u!1 &9010150507951970761
 GameObject:
   m_ObjectHideFlags: 0

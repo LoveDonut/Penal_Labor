@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b48b71d959328e438cf3ca9b7e990dc, type: 3}
   m_Name: Hands
   m_EditorClassIdentifier: 
-  power: 2
+  power: 4
   costs: 00000000000000000000000000000000
   recovery: 0
   _weaponType: 0

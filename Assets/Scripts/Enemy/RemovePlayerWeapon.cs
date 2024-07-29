@@ -10,6 +10,12 @@ public class RemovePlayerWeapon : MonoBehaviour
     PlayerWeaponManagement _weaponManagement;
     PlayerResourceManagement _resourceManagement;
     Weapon[] weapons;
+
+    float _coolTime = 2f;
+    #endregion
+
+    #region PublicVariables
+    public bool _isCoolDown = false;
     #endregion
 
     #region PrivateMethods
@@ -32,9 +38,10 @@ public class RemovePlayerWeapon : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !_isCoolDown)
         {
             Weapon weapon = collision.GetComponentInChildren<Weapon>();
+            StartCoroutine(StartCoolTime());
 
             if (weapon != null && weapon.GetWeaponType() != PlayerWeaponManagement.EWeaponType.Hands)
             {
@@ -58,7 +65,6 @@ public class RemovePlayerWeapon : MonoBehaviour
     {
         foreach(Weapon weapon in weapons)
         {
-            Debug.Log(weapon.GetWeaponType());
             if(weapon.GetWeaponType() == weaponType)
             {
                 weapon.gameObject.SetActive(true);
@@ -70,5 +76,11 @@ public class RemovePlayerWeapon : MonoBehaviour
         }
     }
 
+    IEnumerator StartCoolTime()
+    {
+        _isCoolDown = true;
+        yield return new WaitForSeconds(_coolTime);
+        _isCoolDown = false;
+    }
     #endregion
 }

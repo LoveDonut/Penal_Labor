@@ -22,14 +22,14 @@ public class Resource : MonoBehaviour
     [SerializeField] float _shakeMagnitude = 0.1f;
     [SerializeField] float _maxHp = 100;
     [SerializeField] ParticleSystem _goldParticle;
-    
+
     ManageStage _stageManager;
     PlayerResourceManagement _resourceManagement;
     SpawnResource _spawnManager;
     Vector3 _originalPosition;
     float _hp;
-    //float _resourceCriteria;
-    int goldRate = 5;
+    float _resourceCriteria;
+    int goldRate = 12;
     #endregion
 
     #region PrivateMethods
@@ -54,13 +54,6 @@ public class Resource : MonoBehaviour
     }
     void GiveResource(int num)
     {
-        int percent = UnityEngine.Random.Range(0, goldRate);
-        if (percent == 0)
-        {
-            _resourceManagement.GatherResources(0, 0, 0, 1);
-            ParticleSystem instance = Instantiate(_goldParticle, transform.position, _goldParticle.transform.rotation, transform);
-            Destroy(instance, instance.main.duration + instance.main.startLifetime.constantMax);
-        }
         switch (_resourceType)
         {
             case EResource.Coal:
@@ -73,6 +66,18 @@ public class Resource : MonoBehaviour
                 _resourceManagement.GatherResources(0, 0, num, 0);
                 break;
         }
+    }
+
+    void GiveRandomGold(int num)
+    {
+        int percent = UnityEngine.Random.Range(0, goldRate);
+        if (percent == 0)
+        {
+            _resourceManagement.GatherResources(0, 0, 0, 1);
+            ParticleSystem instance = Instantiate(_goldParticle, transform.position, _goldParticle.transform.rotation, transform);
+            Destroy(instance, instance.main.duration + instance.main.startLifetime.constantMax);
+        }
+
     }
 
     IEnumerator ShakeCoroutine()
@@ -94,14 +99,6 @@ public class Resource : MonoBehaviour
         _sprites.transform.localPosition = _originalPosition;
     }
 
-    //private void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if(collision.gameObject.CompareTag("Player"))
-    //    {
-    //        RecoverHp();
-    //    }
-    //}
-
     #endregion
 
     #region PublicMethods
@@ -114,11 +111,11 @@ public class Resource : MonoBehaviour
     {
         _hp -= damage;
 
-        //while(_hp / _maxHp <= _resourceCriteria && _resourceCriteria > 0f)
-        //{
-        //    _resourceCriteria -= 0.1f;
-        //    GiveResource(1);
-        //}
+        while (_hp / _maxHp <= _resourceCriteria && _resourceCriteria > 0f)
+        {
+            _resourceCriteria -= 0.1f;
+            GiveRandomGold(goldRate);
+        }
 
         if (_hp <= 0) 
         {
@@ -130,7 +127,7 @@ public class Resource : MonoBehaviour
     public void RecoverHp()
     {
         _hp = _maxHp;
-        //_resourceCriteria = 0.9f;
+        _resourceCriteria = 0.9f;
     }
 
     public EResource GetResourceType()

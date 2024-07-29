@@ -6,7 +6,7 @@ public class UseDoor : MonoBehaviour
 {
     #region PrivateVariables
     [SerializeField] GameObject _portal;
-
+    [SerializeField] ManageStage _DestinationStage;
     bool _isDoorInStage;
     ManageStage _stageManager;
     #endregion
@@ -43,6 +43,7 @@ public class UseDoor : MonoBehaviour
             else if(!_isDoorInStage)
             {
                 collision.transform.position = _portal.transform.position + new Vector3(0, -5f, 0);
+                _DestinationStage._isInRoom = true;
             }
         }
     }

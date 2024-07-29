@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     #region PrivateVariables
 
-    [SerializeField] float _moveSpeed = 5f;
+    public float _moveSpeed = 5f;
     Vector2 _moveInput;
     Rigidbody2D _myRigidbody;
 

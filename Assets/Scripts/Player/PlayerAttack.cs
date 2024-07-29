@@ -30,6 +30,14 @@ public class PlayerAttack : MonoBehaviour
         _camera = FindObjectOfType<CinemachineBrain>().gameObject;
     }
 
+    void Update()
+    {
+        if(!_isGathering)
+        {
+            _camera.transform.rotation = Quaternion.identity;
+        }
+    }
+
     void OnAttack(InputValue input)
     {
         if (!_playerController._isActive) return;
@@ -109,7 +117,7 @@ public class PlayerAttack : MonoBehaviour
             }
 
             // Damaged
-            _hitDetect._touchedResource.Damaged(_weapon.GetPower());
+            _hitDetect._touchedResource.Damaged(_weapon.GetPower() * Time.deltaTime);
 
             yield return new WaitForEndOfFrame();
         }
@@ -119,7 +127,6 @@ public class PlayerAttack : MonoBehaviour
         Destroy(instance);
         _isGathering = false;
         _weapon.SetDrillAnimation(false);
-        _camera.transform.rotation = Quaternion.identity;
     }
 
     void TurnOffIsGathering()

@@ -13,7 +13,6 @@ public class ScreenFlash : MonoBehaviour
     void Awake()
     {
         _redOverlay = GetComponent<Image>();
-        _stageManager = transform.parent.GetComponentInParent<ManageStage>();
     }
 
     void Start()
@@ -24,8 +23,9 @@ public class ScreenFlash : MonoBehaviour
         }
     }
 
-    public void FlashScreen()
+    public void FlashScreen(ManageStage currentStage)
     {
+        _stageManager = currentStage;
         if (_redOverlay != null)
         {
             StartCoroutine(FlashRoutine());
@@ -36,6 +36,7 @@ public class ScreenFlash : MonoBehaviour
     {
         while(_stageManager._isGatherEverything)
         {
+            Debug.Log("Alarm!!");
             // 페이드인
             yield return StartCoroutine(Fade(0f, 0.5f, flashDuration / 2));
 
