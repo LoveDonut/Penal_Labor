@@ -481,8 +481,8 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 0, y: 0.5773587}
-      - {x: -0.23882282, y: -0.1402083}
-      - {x: 0.2250768, y: -0.140208}
+      - {x: -0.19152847, y: -0.067976914}
+      - {x: 0.1691835, y: -0.06797662}
   m_UseDelaunayMesh: 0
 --- !u!114 &6849185684857452402
 MonoBehaviour:
@@ -496,6 +496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e465800e709ea3245a9a22801e62586d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isChasingEnemy: 0
 --- !u!1 &7809406562158764448
 GameObject:
   m_ObjectHideFlags: 0
@@ -650,10 +651,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _route: {fileID: 0}
   _sightPoint: {fileID: 1994276717314790564}
-  _tie: {fileID: 4857953429209922128}
   _flashlightRotationSpeed: 1000
-  _moveSpeed: 7
-  _waitTime: 1
+  _moveSpeedMin: 5
+  _moveSpeedMax: 10
 --- !u!70 &3071486315138052848
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

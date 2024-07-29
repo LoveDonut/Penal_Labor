@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Drill
   m_EditorClassIdentifier: 
   power: 0.08
-  costs: 64000000640000006400000000000000
+  costs: 50000000000000000000000000000000
   recovery: 0
   _weaponType: 3

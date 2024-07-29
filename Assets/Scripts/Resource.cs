@@ -29,7 +29,7 @@ public class Resource : MonoBehaviour
     Vector3 _originalPosition;
     float _hp;
     //float _resourceCriteria;
-    int goldRate = 15;
+    int goldRate = 5;
     #endregion
 
     #region PrivateMethods
@@ -123,7 +123,7 @@ public class Resource : MonoBehaviour
         if (_hp <= 0) 
         {
             GiveResource(10);
-            _stageManager.DisappearResoource(gameObject);
+            _stageManager.DisappearOneResoource(gameObject);
         }
     }
 

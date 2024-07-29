@@ -5,12 +5,12 @@ using UnityEngine;
 public class ManageStage : MonoBehaviour
 {
     #region PrivateVariables
-    [SerializeField] GameObject[] _resources;
     [SerializeField] GameObject[] _enemys;
-    
-    ChasePlayer _chaseEnemy;
+
+    Resource[] _resources;
+    ChasePlayer[] _chaseEnemys;
     PlayerResourceManagement _resourceManagement;
-    
+
 
     int _resourcesCount;
     #endregion
@@ -20,7 +20,8 @@ public class ManageStage : MonoBehaviour
     void Awake()
     {
         _resourceManagement = FindObjectOfType<PlayerResourceManagement>();
-        _chaseEnemy = GetComponentInChildren<ChasePlayer>();
+        _chaseEnemys = GetComponentsInChildren<ChasePlayer>();
+        _resources = GetComponentsInChildren<Resource>();
     }
 
     void Start()
@@ -28,12 +29,19 @@ public class ManageStage : MonoBehaviour
         _resourcesCount = _resources.Length;
     }
 
-    void ChasePlayer()
+    void WakeupChaseEnemy()
     {
         _isGatherEverything = true;
+    }
+
+    void WakeupMovingEnemys()
+    {
         foreach (GameObject enemy in _enemys)
         {
-            enemy.SetActive(true);
+            if (!enemy.activeInHierarchy)
+            {
+                enemy.SetActive(true);
+            }
         }
     }
 
@@ -42,16 +50,19 @@ public class ManageStage : MonoBehaviour
         _isGatherEverything = false;
         _resourcesCount = _resources.Length;
         _resourceManagement.ResetTemporaryResources();
-        _chaseEnemy.ResetChase();
+        foreach (ChasePlayer chaseEnemy in  _chaseEnemys)
+        {
+            chaseEnemy.ResetChase();
+        }
         _resourceManagement.TriggerBigEyeBall(false);
         foreach (GameObject enemy in _enemys)
         {
             enemy.SetActive(false);
         }
-        foreach (GameObject resource in _resources)
+        foreach (Resource resource in _resources)
         {
-            resource.SetActive(true);
-            resource.GetComponent<Resource>().RecoverHp();
+            resource.gameObject.SetActive(true);
+            resource.RecoverHp();
         }
     }
 
@@ -65,14 +76,21 @@ public class ManageStage : MonoBehaviour
         _isGatherEverything = false;
     }
 
-    public void DisappearResoource(GameObject resource)
+    public void DisappearOneResoource(GameObject resource)
     {
         resource.SetActive(false);
         _resourcesCount--;
 
-        if(_resourcesCount <= 0)
+        WakeupMovingEnemys();
+
+        if (_resourcesCount <= 0)
         {
-            ChasePlayer();
+            WakeupChaseEnemy();
         }
+    }
+
+    public void GiveStageClearReward()
+    {
+        _resourceManagement.GiveResourcesTwice();
     }
 }

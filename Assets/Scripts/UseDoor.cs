@@ -31,8 +31,12 @@ public class UseDoor : MonoBehaviour
     {
         if(collision.CompareTag("Player"))
         {
-            if(_isDoorInStage && _stageManager._isGatherEverything)
+            if (_isDoorInStage)
             {
+                if (_stageManager._isGatherEverything) // if player gather everything, then give resources twice
+                {
+                    _stageManager.GiveStageClearReward();
+                }
                 collision.transform.position = Vector3.zero;
                 _stageManager.PlayerGoOut();
             }

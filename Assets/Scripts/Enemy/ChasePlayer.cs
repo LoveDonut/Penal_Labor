@@ -24,7 +24,6 @@ public class ChasePlayer : MonoBehaviour
     //bool _isChasing = false;
     //bool _isReturning = false;
     public bool _isChaseStart = false;
-    bool _isStartCoroutine = false;
     bool _isArrive = true;
     #endregion
 

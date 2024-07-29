@@ -154,5 +154,14 @@ public class PlayerResourceManagement : MonoBehaviour
         _temporaryGold = 0;
     }
 
+    public void GiveResourcesTwice()
+    {
+        _coalCount += _temporaryCoal;
+        _treeCount += _temporaryTree;
+        _ironCount += _temporaryIron;
+        _goldCount += _temporaryGold;
+        DisplayResourceUI();
+    }
+
     #endregion
 }
