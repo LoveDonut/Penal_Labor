@@ -537,8 +537,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9f81da389ed7d1438397fd0d74e41a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _istoucingResource: 0
-  _istoucingShopKeeper: 0
+  _istouchingResource: 0
+  _istouchingShopKeeper: 0
   _touchedResource: {fileID: 0}
 --- !u!1 &8193084728916419195
 GameObject:
@@ -672,7 +672,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemConfig: {fileID: 11400000, guid: aae07b3c93773ae4ab8ef22d82941d5c, type: 2}
-  _damagedFX: {fileID: 6868989778028926701, guid: 28d522eafc4f06b469bda77554c8a2f1, type: 3}
+  _damagedFX: {fileID: 6868989778028926701, guid: fec5ad6ccea71e14b94b711ac454c1f8, type: 3}
   _hitPoint: {fileID: 6736042503185474286}
 --- !u!95 &8214146630750398093
 Animator:

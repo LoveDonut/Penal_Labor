@@ -6,6 +6,7 @@ public class ManageStage : MonoBehaviour
 {
     #region PrivateVariables
     [SerializeField] GameObject[] _enemys;
+    [SerializeField] ScreenFlash _screenFlash;
 
     Resource[] _resources;
     ChasePlayer[] _chaseEnemys;
@@ -32,6 +33,7 @@ public class ManageStage : MonoBehaviour
     void WakeupChaseEnemy()
     {
         _isGatherEverything = true;
+        _screenFlash.FlashScreen();
     }
 
     void WakeupMovingEnemys()

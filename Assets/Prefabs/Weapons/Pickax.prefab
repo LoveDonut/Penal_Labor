@@ -451,7 +451,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemConfig: {fileID: 11400000, guid: 44875721a3ab9fa4aa036927b47ee079, type: 2}
-  _damagedFX: {fileID: 6868989778028926701, guid: 28d522eafc4f06b469bda77554c8a2f1, type: 3}
+  _damagedFX: {fileID: 6868989778028926701, guid: 40f52d0dbfa93c34d80dce0f98641240, type: 3}
   _hitPoint: {fileID: 9139648509316960676}
 --- !u!95 &4190631137169586270
 Animator:
@@ -519,8 +519,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9f81da389ed7d1438397fd0d74e41a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _istoucingResource: 0
-  _istoucingShopKeeper: 0
+  _istouchingResource: 0
+  _istouchingShopKeeper: 0
   _touchedResource: {fileID: 0}
 --- !u!70 &6567108010068633877
 CapsuleCollider2D:
